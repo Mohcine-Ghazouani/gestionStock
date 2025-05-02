@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
 @extends('layouts.app')
 
 @section('content')
@@ -53,4 +61,44 @@
     </div>
     @endif
 </div>
+<div class="card mt-4">
+    <div class="card-body">
+        <h4>Stock Movements per Product</h4>
+        <canvas id="stockChart" height="100"></canvas>
+    </div>
+</div>
+
+<script>
+    const ctx = document.getElementById('stockChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {!! json_encode($labels) !!},
+            datasets: [
+                {
+                    label: 'Stock IN',
+                    backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                    data: {!! json_encode($stockIn) !!}
+                },
+                {
+                    label: 'Stock OUT',
+                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                    data: {!! json_encode($stockOut) !!}
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>
+
+
 @endsection
+
+</body>
+</html>
