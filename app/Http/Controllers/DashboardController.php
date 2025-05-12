@@ -26,7 +26,7 @@ class DashboardController extends Controller
     $totalOut = StockMovement::where('type', 'out')->sum('quantity');
     $lowStock = Product::where('quantity', '<=', 5)->get();
 
-    // Chart data: stock in/out grouped by product
+    
     $products = Product::all();
     $labels = $products->pluck('name');
     $stockIn = [];

@@ -1,56 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .reset-password-container {
+            max-width: 450px;
+            width: 100%;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            border-radius: 1rem;
+        }
+        .form-control:focus {
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        .input-group-text {
+            background-color: transparent;
+        }
+        .btn-primary {
+            padding: 0.6rem;
+        }
+    </style>
 </head>
-
-<body class="bg-body-secondary">
-    <div class="container border p-3 mt-5 rounded bg-white" style="width: 30%;">
-        <form method="POST" action="{{route('password.update')}}">
-            @csrf
-            <div class="mb-4 text-center">
-                <h1>RESET PASSWORD</h1>
+<body>
+    <div class="reset-password-container">
+        <div class="card">
+            <div class="card-body p-4 p-md-5">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-primary">Reset Password</h2>
+                    <p class="text-muted">Enter your new password below</p>
+                </div>
+                
+                <form method="POST" action="{{route('password.update')}}">
+                    @csrf
+                    
+                    <input type="hidden" name="token" value="{{ $request->route('token') }}" />
+                    
+                    <div class="mb-4">
+                        <label for="email" class="form-label fw-semibold">Email Address</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            <input type="email" 
+                                   class="form-control" 
+                                   id="email" 
+                                   name="email" 
+                                   value="{{ old('email', $request->email) }}"
+                                   required 
+                                   autofocus 
+                                   autocomplete="username" 
+                                   placeholder="you@example.com">
+                        </div>
+                        @error('email')
+                            <div class="text-danger mt-1 small">{{$message}}</div>
+                        @enderror
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="password" class="form-label fw-semibold">New Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="password" 
+                                   name="password" 
+                                   required 
+                                   autocomplete="new-password" 
+                                   placeholder="••••••••">
+                        </div>
+                        @error('password')
+                            <div class="text-danger mt-1 small">{{$message}}</div>
+                        @enderror
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="password_confirmation" class="form-label fw-semibold">Confirm New Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="password_confirmation" 
+                                   name="password_confirmation" 
+                                   required 
+                                   autocomplete="new-password" 
+                                   placeholder="••••••••">
+                        </div>
+                        @error('password_confirmation')
+                            <div class="text-danger mt-1 small">{{$message}}</div>
+                        @enderror
+                    </div>
+                    
+                    <div class="d-grid mb-4">
+                        <button type="submit" class="btn btn-primary fw-semibold">
+                            <i class="fas fa-redo me-2"></i>Reset Password
+                        </button>
+                    </div>
+                </form>
             </div>
-
-            <input type="hidden" name="token" value="{{ $request->route('token') }}" />
-
-            <label for="email" class="form-label">Email : </label>
-            <input id="email" class="form-control" type="email" name="email" :value="old('email', $request->email)"
-                required autofocus autocomplete="username" />
-            @error('email')
-            <div class="text-danger">{{$message}}</div>
-            @enderror
-            <br />
-
-            <label for="password" class="form-label">Password:</label>
-            <input id="password" class="form-control" type="password" name="password" required
-                autocomplete="new-password" />
-            @error('password')
-            <div class="text-danger">{{$message}}</div>
-            @enderror
-            <br />
-        
-            <label for="password_confirmation" class="form-label">Confirm Password :</label>
-
-            <input id="password_confirmation" class="form-control" type="password" name="password_confirmation" required
-                autocomplete="new-password" />
-            @error('password_confirmation')
-            <div class="text-danger">{{$message}}</div>
-            @enderror  
-            <br />
-
-            <div class="d-grid mu-2">
-                <button class="btn btn-primary bg-primary btn-block">
-                    Reset Password
-                </button>
-            </div>
-        </form>
-    </div>
+        </div>
+    </div>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
