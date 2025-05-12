@@ -28,6 +28,28 @@
             </ul>
         </div>
     </div>
+    <form class="d-flex" action="{{route('logout')}}" method="POST">
+    @csrf
+      <nav class="flex justify-end flex-1 -mx-3">
+                   
+        <ul class="navbar-nav">
+                          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{auth()->user()->name}}
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><a class="dropdown-item" href="#">Update Password</a></li>
+                <li><button type="submit" class="dropdown-item">LogOut</button></li>
+              </ul>
+          </li>
+        </ul>
+                             
+
+      </nav>
+               
+    </form>
 </nav>
 
 @yield('content')
