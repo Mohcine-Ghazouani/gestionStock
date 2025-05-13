@@ -1,41 +1,64 @@
-<div class="container-fluid border p-2 mt-2 rounded bg-white" style="width: 75%;">
 
-    <form method="POST" action="{{route('user-password.update')}}" class="mt-6 space-y-6">
-        @csrf
-        @method('put')
-        <div class="text-center">
-            <h1>UPDATE PASSWORD</h1>
-        </div>
-
-        @if (session('status'))
-        <div class="alert alert-success">
-            {{session('status')}}
-        </div>
-        @endif
-        <div class="container">
-            
-            <label for="update_password_current_password" class="form-label"  :value="__('Current Password')" >Current Password</label>
-            <input id="update_password_current_password" name="current_password" type="password"  class="form-control" autocomplete="current-password" />
-            <error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
-            <br>
-
-            
-            <label for="update_password_password" class="form-label" :value="__('New Password')" >New Password</label>
-            <input id="update_password_password" name="password" type="password"  class="form-control" autocomplete="new-password" />
-            <error :messages="$errors->updatePassword->get('password')" class="mt-2" />
-
-            <br>
-            
-            <label for="update_password_password_confirmation" class="form-label" :value="__('Confirm Password')" >Confirm Password</label>
-            <input id="update_password_password_confirmation" name="password_confirmation" type="password"  class="form-control" autocomplete="new-password" />
-            <error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
-            <br>
-
-            <div class="d-grid mu-2">
-                <button class="btn btn-primary bg-primary btn-block">
-                    Update Password
-                </button>
+        <!-- Password Update -->
+        <div class="col-md-8 mb-4">
+            <div class="card profile-card">
+                <div class="card-header d-flex align-items-center">
+                    <i class="fas fa-lock fs-4 me-2 text-primary"></i>
+                    <h5 class="card-title mb-0">Update Password</h5>
+                </div>
+                
+                <div class="card-body p-4">
+                    @if (session('status') === 'password-updated')
+                        <div class="alert alert-success d-flex align-items-center" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <div>Your password has been updated successfully!</div>
+                        </div>
+                    @endif
+                    
+                    <form method="POST" action="{{route('user-password.update')}}">
+                        @csrf
+                        @method('PUT')
+                        
+                        <div class="mb-3">
+                            <label for="current_password" class="form-label">Current Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                <input id="current_password" name="current_password" type="password" class="form-control @error('current_password') is-invalid @enderror" autocomplete="current-password" />
+                            </div>
+                            @error('current_password')
+                                <div class="text-danger mt-1 small">{{$message}}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">New Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input id="password" name="password" type="password" class="form-control @error('password') is-invalid @enderror" autocomplete="new-password" />
+                            </div>
+                            @error('password')
+                                <div class="text-danger mt-1 small">{{$message}}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="password_confirmation" class="form-label">Confirm Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input id="password_confirmation" name="password_confirmation" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" autocomplete="new-password" />
+                            </div>
+                            @error('password_confirmation')
+                                <div class="text-danger mt-1 small">{{$message}}</div>
+                            @enderror
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary btn-update" type="submit">
+                                <i class="fas fa-key me-2"></i> Update Password
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </form>
-</div>
+ 

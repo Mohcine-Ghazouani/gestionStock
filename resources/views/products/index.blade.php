@@ -11,22 +11,44 @@
 @section('content')
 <div class="container">
     <h2>Products</h2>
-    <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">Add Product</a>
+
+    <form action="{{ route('products.index') }}" method="GET" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="Search product name...">
+        </div>
+        <div class="col-md-4">
+            <select name="category_id" class="form-select">
+                <option value="">All Categories</option>
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-4 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a href="{{ route('products.index') }}" class="btn btn-secondary">Reset</a>
+        </div>
+    </form>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <table class="table table-bordered">
+    <a href="{{ route('products.create') }}" class="btn btn-success mb-3">Add Product</a>
+
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Name</th><th>Category</th><th>Price</th><th>Quantity</th><th>Actions</th>
+                <th>Name</th><th>Description</th><th>Category</th><th>Price</th><th>Quantity</th><th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($products as $product)
+            @forelse($products as $product)
             <tr>
                 <td>{{ $product->name }}</td>
+                <td>{{ Str::limit($product->description, 50) }}</td>
                 <td>{{ $product->category->name ?? '-' }}</td>
                 <td>${{ number_format($product->price, 2) }}</td>
                 <td>{{ $product->quantity }}</td>
@@ -38,7 +60,11 @@
                     </form>
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td colspan="5" class="text-center">No products found.</td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
 </div>
