@@ -30,6 +30,6 @@ Route::view('profile/edit','profile.edit')->name('profile.edit')->middleware(['a
 
 
 
-Route::resource('products', ProductController::class);
-Route::resource('categories', CategoryController::class);
-Route::resource('stock', StockMovementController::class)->only(['index', 'create', 'store']);
+// Route::resource('products', ProductController::class);
+// Route::resource('categories', CategoryController::class);
+// Route::resource('stock', StockMovementController::class)->only(['index', 'create', 'store']);
