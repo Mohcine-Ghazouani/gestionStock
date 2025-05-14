@@ -2,32 +2,39 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Seeder;
 use App\Models\Product;
 use App\Models\Category;
-use Illuminate\Database\Seeder;
-use Faker\Factory as Faker;
 
 class ProductSeeder extends Seeder
 {
     public function run(): void
     {
-        $faker = Faker::create();
+        $categories = ['Electronics'];
+        $categoryIds = [];
+        $imageUrls = [
+            'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=600',
+            'https://images.pexels.com/photos/7974/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+            'https://images.pexels.com/photos/279906/pexels-photo-279906.jpeg?auto=compress&cs=tinysrgb&w=600',
+            'https://images.pexels.com/photos/8066712/pexels-photo-8066712.png?auto=compress&cs=tinysrgb&w=600',
+            'https://images.pexels.com/photos/3602258/pexels-photo-3602258.jpeg?auto=compress&cs=tinysrgb&w=600',
+        ];
 
-        $categoryIds = Category::pluck('id')->toArray();
-
-        if (empty($categoryIds)) {
-            Category::factory()->count(5)->create();
-            $categoryIds = Category::pluck('id')->toArray();
+        foreach ($categories as $categoryName) {
+            $category = Category::create([
+                'name' => $categoryName,
+            ]);
+            $categoryIds[] = $category->id;
         }
 
-       
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 30; $i++) {
             Product::create([
-                'name'        => $faker->words(3, true),
-                'description' => $faker->sentence(10),
-                'category_id' => $faker->randomElement($categoryIds),
-                'price'       => $faker->randomFloat(2, 5, 500),
-                'quantity'    => $faker->numberBetween(1, 100),
+                'name' => fake()->words(2, true),
+                'image' => fake()->randomElement($imageUrls),
+                'description' => fake()->paragraph(),
+                'price' => fake()->randomFloat(2, 10, 500),
+                'quantity' => fake()->numberBetween(1, 100),
+                'category_id' => fake()->randomElement($categoryIds),
             ]);
         }
     }

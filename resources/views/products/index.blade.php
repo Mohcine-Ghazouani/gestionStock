@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products Management</title>
-</head>
-
-<body class="bg-light">
-    @extends('layouts.app')
-
-    @section('content')
+@section('content')
     <div class="container py-4">
         <div class="row mb-4">
             <div class="col">
@@ -24,10 +14,10 @@
         </div>
 
         @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         @endif
 
         <div class="card shadow-sm mb-4">
@@ -50,9 +40,9 @@
                                 <select name="category_id" class="form-select">
                                     <option value="">All Categories</option>
                                     @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
+                                        <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -87,57 +77,61 @@
                         </thead>
                         <tbody>
                             @forelse($products as $product)
-                            <tr>
-                                <td class="ps-3">
-                                    @if($product->image)
-                                    <img src="{{ asset($product->image) }}" class="rounded" width="100" height="100" alt="{{ $product->name }}">
-                                    @else
-                                    <div class="bg-light d-flex align-items-center justify-content-center rounded" style="width:100px;height:100px">
-                                        <i class="fas fa-image text-muted"></i>
-                                    </div>
-                                    @endif
-                                </td>
-                                <td class="fw-medium">{{ $product->name }}</td>
-                                <td class="text-muted">{{ Str::limit($product->description, 50) }}</td>
-                                <td class="text-center">
-                                    @if($product->category)
-                                    {{ $product->category->name }}
-                                    @else
-                                    -
-                                    @endif
-                                </td>
-                                <td class="fw-bold text-success">${{ number_format($product->price, 2) }}</td>
-                                <td class="text-center">
-                                    {{ $product->quantity }}
-                                    @if($product->quantity <= 0)
-                                    <small class="d-block text-danger">(Out of stock)</small>
-                                    @endif
-                                </td>
-                                <td class="text-end pe-3">
-                                    <div class="btn-group">
-                                        <a href="{{ route('products.edit', $product) }}" class="btn btn-sm btn-outline-primary">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <form action="{{ route('products.destroy', $product) }}" method="POST">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Are you sure you want to delete this product?')" 
-                                                class="btn btn-sm btn-outline-danger">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td class="ps-3">
+                                        @if($product->image)
+                                            <img src="{{ asset($product->image) }}" class="rounded" width="100" height="100"
+                                                alt="{{ $product->name }}">
+                                        @else
+                                            <div class="bg-light d-flex align-items-center justify-content-center rounded"
+                                                style="width:100px;height:100px">
+                                                <i class="fas fa-image text-muted"></i>
+                                            </div>
+                                        @endif
+                                    </td>
+                                    <td class="fw-medium">{{ $product->name }}</td>
+                                    <td class="text-muted">{{ Str::limit($product->description, 50) }}</td>
+                                    <td class="text-center">
+                                        @if($product->category)
+                                            {{ $product->category->name }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td class="fw-bold text-success">${{ number_format($product->price, 2) }}</td>
+                                    <td class="text-center">
+                                        {{ $product->quantity }}
+                                        @if($product->quantity <= 0)
+                                            <small class="d-block text-danger">(Out of stock)</small>
+                                        @endif
+                                    </td>
+                                    <td class="text-end pe-3">
+                                        <div class="btn-group">
+                                            <a href="{{ route('products.edit', $product) }}"
+                                                class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form action="{{ route('products.destroy', $product) }}" method="POST">
+                                                @csrf @method('DELETE')
+                                                <button type="submit"
+                                                    onclick="return confirm('Are you sure you want to delete this product?')"
+                                                    class="btn btn-sm btn-outline-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
                             @empty
-                            <tr>
-                                <td colspan="7" class="text-center py-4">
-                                    <div class="py-3">
-                                        <i class="fas fa-box-open text-muted mb-2" style="font-size: 3rem;"></i>
-                                        <p class="text-muted mb-0">No products found.</p>
-                                        <p class="text-muted">Try adjusting your search or filter criteria.</p>
-                                    </div>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td colspan="7" class="text-center py-4">
+                                        <div class="py-3">
+                                            <i class="fas fa-box-open text-muted mb-2" style="font-size: 3rem;"></i>
+                                            <p class="text-muted mb-0">No products found.</p>
+                                            <p class="text-muted">Try adjusting your search or filter criteria.</p>
+                                        </div>
+                                    </td>
+                                </tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -150,7 +144,4 @@
         </div>
     </div>
 
-    @endsection
-</body>
-
-</html>
+@endsection

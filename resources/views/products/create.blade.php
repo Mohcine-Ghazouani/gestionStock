@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Product</title>
-</head>
-
-<body class="bg-light">
     @extends('layouts.app')
 
     @section('content')
@@ -37,7 +28,7 @@
                                         <i class="fas fa-tag text-primary me-1"></i> Product Name
                                     </label>
                                     <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                                        value="{{ old('name') }}" placeholder="Enter product name" required>
+                                         placeholder="Enter product name" required>
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -49,7 +40,7 @@
                                     </label>
                                     <textarea name="description"
                                         class="form-control @error('description') is-invalid @enderror" rows="4"
-                                        placeholder="Enter product description">{{ old('description') }}</textarea>
+                                        placeholder="Enter product description"></textarea>
                                     @error('description')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -63,7 +54,7 @@
                                         <span class="input-group-text bg-white">$</span>
                                         <input type="number" step="0.01" min="0" name="price"
                                             class="form-control @error('price') is-invalid @enderror"
-                                            value="{{ old('price') }}" placeholder="0.00" required>
+                                            placeholder="0.00" required>
                                         @error('price')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -78,7 +69,7 @@
                                     </label>
                                     <input type="number" min="0" name="quantity"
                                         class="form-control @error('quantity') is-invalid @enderror"
-                                        value="{{ old('quantity') }}" placeholder="0" required>
+                                         placeholder="0" >
                                     @error('quantity')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -92,7 +83,7 @@
                                         class="form-select @error('category_id') is-invalid @enderror" required>
                                         <option value="" disabled selected>Select a category</option>
                                         @foreach($categories as $cat)
-                                            <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
+                                            <option value="{{ $cat->id }}" >
                                                 {{ $cat->name }}
                                             </option>
                                         @endforeach
@@ -135,6 +126,3 @@
 
 
     @endsection
-</body>
-
-</html>
